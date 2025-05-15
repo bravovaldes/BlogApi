@@ -26,7 +26,7 @@ app.MapGet("/posts", async (AppDbContext db) =>
 app.MapPost("/posts", async (AppDbContext db, BlogPost post) =>
 {
     post.Date = DateTime.Now.ToString("dd/MM/yyyy");
-    post.Views = new Random().Next(10, 200);
+    post.Views = 0;
     post.ReadTime = $"{2 + post.Content.Length / 150} min";
 
     db.BlogPosts.Add(post);
@@ -55,6 +55,19 @@ app.MapPut("/posts/{id}/dislike", async (AppDbContext db, int id) =>
     await db.SaveChangesAsync();
 
     return Results.Ok(post);
+});
+app.MapPut("/posts/views", async (AppDbContext db) =>
+{
+    var posts = await db.BlogPosts.ToListAsync();
+
+    foreach (var post in posts)
+    {
+        post.Views++;
+    }
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok("Vues incrémentées pour tous les articles.");
 });
 
 
