@@ -75,6 +75,17 @@ app.MapPut("/posts/views", async (AppDbContext db) =>
 
     return Results.Ok("Vues incrémentées pour tous les articles.");
 });
+app.MapPut("/posts/views/{id}", async (AppDbContext db, int id) =>
+{
+    var post = await db.BlogPosts.FindAsync(id);
+    if (post == null) return Results.NotFound();
+
+    post.Views++;
+    await db.SaveChangesAsync();
+
+    return Results.Ok(post);
+});
+
 
 
 app.Run();
