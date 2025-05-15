@@ -56,6 +56,12 @@ app.MapPut("/posts/{id}/dislike", async (AppDbContext db, int id) =>
 
     return Results.Ok(post);
 });
+app.MapGet("/posts/{id}", async (AppDbContext db, int id) =>
+{
+    var post = await db.BlogPosts.FindAsync(id);
+    return post is null ? Results.NotFound() : Results.Ok(post);
+});
+
 app.MapPut("/posts/views", async (AppDbContext db) =>
 {
     var posts = await db.BlogPosts.ToListAsync();
