@@ -10,6 +10,11 @@ builder.Services.AddCors(); // ← active le service CORS
 var app = builder.Build();
 app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 
 app.MapGet("/posts", async (AppDbContext db) =>
