@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BlogApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250516195111_InitBlogPosts")]
+    [Migration("20250516225517_InitBlogPosts")]
     partial class InitBlogPosts
     {
         /// <inheritdoc />
